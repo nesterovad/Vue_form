@@ -30,7 +30,7 @@
             </div>
             <div class="row">
                 <label class="label">Группа клиентов</label>
-                <select class="input-select" multiple required>
+                <select class="input-select" multiple required size="1">
                     <option>VIP</option>
                     <option>Проблемные</option>
                     <option>ОМС</option>
@@ -49,7 +49,7 @@
                 <input type="checkbox" class="input-checkbox" /> 
             </div>
         </div>
-        <div style="section">
+        <div class="section">
             <h5 class="section-name">Адрес</h5>
             <div class="row">
                 <label class="label">Индекс</label>
@@ -79,6 +79,7 @@
         <div class="section">
             <h5 class="section-name">Паспорт</h5>
             <div class="row">
+                <label class="label">Тип документа</label>
                 <select class="input-select" required>
                     <option>Паспорт</option>
                     <option>Свидетельство о рождении</option>
@@ -110,11 +111,68 @@
 export default {
     name: 'Form',
     components: {
-        
+
     }
 }
 </script>
 
 <style>
+#form-container{
+    width: 50dvw;
+    min-width: 200px;
+    margin-left: 25dvw;
+    margin-top:10px;
+    border:1px solid lavender;
+    background-color:ghostwhite;
+    padding-top: 20px;
+}
 
+.section{
+    margin-left: 20px;
+    border-bottom: 1px solid lavender;
+    margin-right: 20px;
+    padding-bottom: 20px;
+}
+
+.section-name{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:mediumslateblue;
+    font-size: 17px;
+}
+
+.row{
+    margin-left: 10px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.label{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+}
+
+.input-text{
+    border:1px solid lavender;
+    border-radius: 5px;
+    height:20px;
+    font-size: 16px;
+    color:dimgrey;
+}
+
+.input-select{
+    border:1px solid lavender;
+    border-radius: 5px;
+    color:dimgray;
+}
+
+#button{
+    margin-left:40%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid lavender;
+    border-radius: 5px;
+    background-color:lightblue;
+    height: 30px;
+    font-size: 14px;
+}
 </style>
