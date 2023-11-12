@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <Success />
+    <div v-if="created">
+      <Success />
+    </div>
+    <div v-else>
+      <Form v-on:create="created = true" />
+    </div>
   </div>
 </template>
 
@@ -13,7 +18,13 @@ export default {
   name: 'App',
   components: {
     Form,
+    Success,
     Success
+},
+data(){
+  return {
+    created: false,
+  }
 }
 }
 </script>

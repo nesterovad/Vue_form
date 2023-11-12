@@ -1,10 +1,4 @@
 <script>
-function isDateCorrect(date){
-    if(new Date(date) > new Date || date.split('.')[0] > 31 || date.split('.')[1] > 12){
-        return false;
-    }
-    return true;
-}
 export default {
     data () {
         return {
@@ -33,7 +27,8 @@ export default {
                     delivered: '',
                     deliveryDate: ''
                 }
-            }
+            },
+            
         }
     },
     methods: {
@@ -88,16 +83,24 @@ export default {
             if(!dateTemplate.test(this.client.document.deliveryDate.trim())){
                 return 'Пожалуйста, введите дату выдачи документа в формате ДД.ММ.ГГГГ';
             }
+        },
+        checkForm(){
+            if(!(this.checkName() || this.checkSurname() || this.checkBirthDate() || this.checkPhone() || this.checkGroup () || this.checkCity() ||
+                this.checkDocument() || this.checkDeliveryDate())){
+                    this.$emit('create');
+                }
         }
     },
     name: 'Form',
     components: {
-
+        
     }
 }
 </script>
 
 <template>
+    <div>
+        
     <form id="form-container">
         <div class="section">
             <div class="row">
@@ -228,8 +231,9 @@ export default {
                 </div>
             </div>
         </div>
-        <button id="button">Создать</button>
+        <button id="button" @click="checkForm()">Создать</button>
     </form>
+</div>
 </template>
 
 
