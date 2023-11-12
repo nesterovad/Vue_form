@@ -1,113 +1,10 @@
-<template>
-    <form id="form-container">
-        <div class="section">
-            <div class="row">
-                <label class="label">Фамилия</label>
-                <input type="text" class="input-text" required v-model="client.surname" placeholder="Фамилия"/> 
-            </div>
-            <div class="row">
-                <label class="label">Имя</label>
-                <input type="text" class="input-text" required v-model="client.name" placeholder="Имя"/> 
-            </div>
-            <div class="row">
-                <label class="label">Отчество</label>
-                <input type="text" class="input-text" v-model="client.secondName" placeholder="Отчество"/> 
-            </div>
-            <div class="row">
-                <label class="label">Дата рождения</label>
-                <input type="text" class="input-text" required v-model="client.birthDate" placeholder="ДД.ММ.ГГГГ"/> 
-            </div>
-            <div class="row">
-                <label class="label">Номер телефона</label>
-                <input type="phone" class="input-text" required v-model="client.phone" placeholder="7XXXXXXXXXX"/> 
-            </div>
-            <div class="row">
-                <label class="label">Пол</label>
-                <input type="radio" name="gender" value="male" class="input-radio" v-model="client.gender"/>
-                <label class="label">Мужской</label>
-                <input type="radio" name="gender" value="female" class="input-radio" v-model="client.gender"/>
-                <label class="label">Женский</label>
-            </div>
-            <div class="row">
-                <label class="label">Группа клиентов</label>
-                <select class="input-select" multiple required size="1" v-model="client.group">
-                    <option>VIP</option>
-                    <option>Проблемные</option>
-                    <option>ОМС</option>
-                </select> 
-            </div>
-            <div class="row">
-                <label class="label">Лечащий врач</label>
-                <select class="input-select" v-model="client.doctor">
-                    <option>Иванов</option>
-                    <option>Захаров</option>
-                    <option>Чернышева</option>
-                </select> 
-            </div>
-            <div class="row">
-                <label class="label">Не отправлять СМС</label>
-                <input type="checkbox" class="input-checkbox" v-model="client.sendSMS"/> 
-            </div>
-        </div>
-        <div class="section">
-            <h5 class="section-name">Адрес</h5>
-            <div class="row">
-                <label class="label">Индекс</label>
-                <input type="text" class="input-text" v-model="client.adress.index"/>
-            </div>
-            <div class="row">
-                <label class="label">Страна</label>
-                <input type="text" class="input-text" v-model="client.adress.country"/>
-            </div>
-            <div class="row">
-                <label class="label">Область</label>
-                <input type="text" class="input-text" v-model="client.adress.region"/>
-            </div>
-            <div class="row">
-                <label class="label">Город</label>
-                <input type="text" class="input-text" required v-model="client.adress.city"/>
-            </div>
-            <div class="row">
-                <label class="label">Улица</label>
-                <input type="text" class="input-text" v-model="client.adress.street"/>
-            </div>
-            <div class="row">
-                <label class="label">Дом</label>
-                <input type="text" class="input-text" v-model="client.adress.building"/>
-            </div>
-        </div>
-        <div class="section">
-            <h5 class="section-name">Паспорт</h5>
-            <div class="row">
-                <label class="label">Тип документа</label>
-                <select class="input-select" required v-model="client.document.type">
-                    <option>Паспорт</option>
-                    <option>Свидетельство о рождении</option>
-                    <option>Вод. удостоверение</option>
-                </select>
-            </div>
-            <div class="row">
-                <label class="label">Серия</label>
-                <input type="text" class="input-text" v-model="client.document.series"/>
-            </div>
-            <div class="row">
-                <label class="label">Номер</label>
-                <input type="text" class="input-text" v-model="client.document.number"/>
-            </div>
-            <div class="row">
-                <label class="label">Кем выдан</label>
-                <input type="text" class="input-text" v-model="client.document.delivered"/>
-            </div>
-            <div class="row">
-                <label class="label">Дата выдачи</label>
-                <input type="text" class="input-text" required v-model="client.document.deliveryDate"/>
-            </div>
-        </div>
-        <button id="button">Создать</button>
-    </form>
-</template>
-
 <script>
+function isDateCorrect(date){
+    if(new Date(date) > new Date || date.split('.')[0] > 31 || date.split('.')[1] > 12){
+        return false;
+    }
+    return true;
+}
 export default {
     data () {
         return {
@@ -139,12 +36,203 @@ export default {
             }
         }
     },
+    methods: {
+        checkName(){
+            if(!this.client.name.trim()){
+                return 'Пожалуйста, введите имя';
+            }
+        },
+        checkSurname(){
+            if(!this.client.surname.trim()){
+                return 'Пожалуйста, введите фамилию';
+            }
+        },
+        checkBirthDate(){
+            if(!this.client.birthDate.trim()){
+                return 'Пожалуйста, введите дату рождения';
+            }
+            let dateTemplate = /^\d\d\.\d\d\.\d\d\d\d$/;
+            if(!dateTemplate.test(this.client.birthDate.trim())){
+                return 'Пожалуйста, введите дату рождения в формате ДД.ММ.ГГГГ';
+            }
+        },
+        checkPhone(){
+            if(!this.client.phone.trim()){
+                return 'Пожалуйста, введите номер мобильного телефона';
+            }
+            let phoneTemplate = /^7\d{10}$/;
+            if(!phoneTemplate.test(this.client.phone.replace(/[ -\(\)]/g, ""))){
+                return 'Пожалуйста, введите корректный номер мобильного телефона';
+            }
+        },
+        checkGroup(){
+            if(!this.client.group || this.client.group.length < 1){
+                return 'Пожалуйста, выберите группу клиентов';
+            }
+        },
+        checkCity(){
+            if(!this.client.adress.city.trim()){
+                return 'Пожалуйста, введите город';
+            }
+        },
+        checkDocument(){
+            if(!this.client.document.type){
+                return 'Пожалуйста, выберите тип документа';
+            }
+        },
+        checkDeliveryDate(){
+            if(!this.client.document.deliveryDate.trim()){
+                return 'Пожалуйста, введите дату выдачи документа';
+            }
+            let dateTemplate = /^\d\d\.\d\d\.\d\d\d\d$/;
+            if(!dateTemplate.test(this.client.document.deliveryDate.trim())){
+                return 'Пожалуйста, введите дату выдачи документа в формате ДД.ММ.ГГГГ';
+            }
+        }
+    },
     name: 'Form',
     components: {
 
     }
 }
 </script>
+
+<template>
+    <form id="form-container">
+        <div class="section">
+            <div class="row">
+                <label class="label">Фамилия</label>
+                <div class="wrapper">
+                    <input type="text" class="input-text" required v-model="client.surname" placeholder="Фамилия"/>
+                    <p class="errorMessage">{{checkSurname()}}</p>
+                </div>
+                 
+            </div>
+            <div class="row">
+                <label class="label">Имя</label>
+                <div class="wrapper">
+                    <input type="text" class="input-text" required v-model="client.name" placeholder="Имя"/>
+                    <p class="errorMessage">{{checkName()}}</p>
+                </div>
+                 
+            </div>
+            <div class="row">
+                <label class="label">Отчество</label>
+                <input type="text" class="input-text" v-model="client.secondName" placeholder="Отчество"/> 
+            </div>
+            <div class="row">
+                <label class="label">Дата рождения</label>
+                <div class="wrapper">
+                    <input type="text" class="input-text" required v-model="client.birthDate" placeholder="ДД.ММ.ГГГГ"/>
+                    <p class="errorMessage">{{checkBirthDate()}}</p>
+                </div> 
+            </div>
+            <div class="row">
+                <label class="label">Номер телефона</label>
+                <div class="wrapper">
+                    <input type="phone" class="input-text" required v-model="client.phone" placeholder="7XXXXXXXXXX"/>
+                    <p class="errorMessage">{{checkPhone()}}</p>
+                </div> 
+            </div>
+            <div class="row">
+                <label class="label">Пол</label>
+                <input type="radio" name="gender" value="male" class="input-radio" v-model="client.gender"/>
+                <label class="label">Мужской</label>
+                <input type="radio" name="gender" value="female" class="input-radio" v-model="client.gender"/>
+                <label class="label">Женский</label>
+            </div>
+            <div class="row">
+                <label class="label">Группа клиентов</label>
+                <div class="wrapper">
+                    <select class="input-select" multiple required v-model="client.group">
+                        <option>VIP</option>
+                        <option>Проблемные</option>
+                        <option>ОМС</option>
+                    </select>
+                    <p class="errorMessage">{{checkGroup()}}</p>
+                </div> 
+            </div>
+            <div class="row">
+                <label class="label">Лечащий врач</label>
+                <select class="input-select" v-model="client.doctor">
+                    <option>Иванов</option>
+                    <option>Захаров</option>
+                    <option>Чернышева</option>
+                </select> 
+            </div>
+            <div class="row">
+                <label class="label">Не отправлять СМС</label>
+                <input type="checkbox" class="input-checkbox" v-model="client.sendSMS"/> 
+            </div>
+        </div>
+        <div class="section">
+            <h5 class="section-name">Адрес</h5>
+            <div class="row">
+                <label class="label">Индекс</label>
+                <input type="text" class="input-text" v-model="client.adress.index"/>
+            </div>
+            <div class="row">
+                <label class="label">Страна</label>
+                <input type="text" class="input-text" v-model="client.adress.country"/>
+            </div>
+            <div class="row">
+                <label class="label">Область</label>
+                <input type="text" class="input-text" v-model="client.adress.region"/>
+            </div>
+            <div class="row">
+                <label class="label">Город</label>
+                <div class="wrapper">
+                    <input type="text" class="input-text" required v-model="client.adress.city"/>
+                    <p class="errorMessage">{{checkCity()}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="label">Улица</label>
+                <input type="text" class="input-text" v-model="client.adress.street"/>
+            </div>
+            <div class="row">
+                <label class="label">Дом</label>
+                <input type="text" class="input-text" v-model="client.adress.building"/>
+            </div>
+        </div>
+        <div class="section">
+            <h5 class="section-name">Паспорт</h5>
+            <div class="row">
+                <label class="label">Тип документа</label>
+                <div class="wrapper">
+                    <select class="input-select" required v-model="client.document.type">
+                        <option>Паспорт</option>
+                        <option>Свидетельство о рождении</option>
+                        <option>Вод. удостоверение</option>
+                    </select>
+                    <p class="errorMessage">{{checkDocument()}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <label class="label">Серия</label>
+                <input type="text" class="input-text" v-model="client.document.series"/>
+            </div>
+            <div class="row">
+                <label class="label">Номер</label>
+                <input type="text" class="input-text" v-model="client.document.number"/>
+            </div>
+            <div class="row">
+                <label class="label">Кем выдан</label>
+                <input type="text" class="input-text" v-model="client.document.delivered"/>
+            </div>
+            <div class="row">
+                <label class="label">Дата выдачи</label>
+                <div class="wrapper">
+                    <input type="text" class="input-text" required v-model="client.document.deliveryDate"/>
+                    <p class="errorMessage">{{checkDeliveryDate()}}</p>
+                </div>
+            </div>
+        </div>
+        <button id="button">Создать</button>
+    </form>
+</template>
+
+
 
 <style>
 #form-container{
