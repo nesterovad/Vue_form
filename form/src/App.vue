@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <Form />
+    <Success />
   </div>
 </template>
 
 <script>
-import Form from './components/Form.vue'
+import Form from './components/Form.vue';
+import Success from './components/Success.vue';
+
 
 export default {
   name: 'App',
   components: {
-    Form
-  }
+    Form,
+    Success
+}
 }
 </script>
 
