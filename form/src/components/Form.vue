@@ -223,7 +223,7 @@ export default {
             <div class="row">
                 <label class="label">Дата выдачи</label>
                 <div class="wrapper">
-                    <input type="text" class="input-text" required v-model="client.document.deliveryDate"/>
+                    <input type="text" class="input-text" required v-model="client.document.deliveryDate" placeholder="ДД.ММ.ГГГГ"/>
                     <p class="errorMessage">{{checkDeliveryDate()}}</p>
                 </div>
             </div>
@@ -262,11 +262,15 @@ export default {
     margin-left: 10px;
     margin-bottom: 5px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .label{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 15px;
+    width: 10dvw;
+    min-width: 150px;
 }
 
 .input-text{
@@ -292,5 +296,17 @@ export default {
     background-color:lightblue;
     height: 30px;
     font-size: 14px;
+}
+
+.wrapper{
+    justify-content: end;
+    width: 100%;  
+}
+
+.errorMessage{
+    color:red;
+    margin-top:0px;
+    padding-top:0px;
+    font-size: 13px;
 }
 </style>
